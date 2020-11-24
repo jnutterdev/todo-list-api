@@ -51,25 +51,16 @@ exports.create = (req, res) => {
 // UPDATE AN EXISTING TODO LIST ITEM BY ITS ID
 
 exports.update = (req, res) => {
-    const id = Number(req.params.id);
-    let todo = todoList.find((t) => {
-        return t.id === Number(id)
-    });
-    let todoIndex = todoList.findIndex((o) => {
-        return o === todo;
-    })
 
-    todoList.pop(todoIndex);
-
-    todoList.push({
-        id: id,
-        todo: req.body.todo
-    });
-
-    res.status(200).json({
-        message: "Todo item updated succesfully"
-    })
-}
+    let objIndex = todoList.findIndex(i =>
+        i.id === Number(req.params.id)
+    );
+    todoList[objIndex] = {
+        ...req.params,
+        ...req.body,
+    };
+    res.status(200).send(todoList);
+};
 
 // DELETES A SPECIFIC TODO LIST ITEM BY ITS ID
 
